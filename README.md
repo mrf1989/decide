@@ -17,6 +17,7 @@ Cambios recientes
 
 - Cambia el tamaño de la fuente tipográfica en el nombre de la votación "voting.name".
 - Se rectifica el title de la web por "Decide!".
+- Cambia el color de "voting.name".
 
 Subsistemas, apps y proyecto base
 ---------------------------------
