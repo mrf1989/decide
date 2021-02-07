@@ -1,15 +1,16 @@
 from django.test import TestCase
 from django.conf import settings
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from base.tests import BaseTestCase
+from base import mods
 from mixnet.models import Auth
 from voting.models import Voting, Question, QuestionOption
 
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
+# from selenium import webdriver
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.keys import Keys
 
 from .views import BoothView
 
@@ -25,15 +26,13 @@ class SimpleTest(TestCase):
         # test case
         self.assertEqual(a+b, 3, msg='Add fuction is not correct')
 
-class VotingDataTest(TestCase):
+class VotingDataTest(BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.voting = self.create_voting()
 
     def tearDown(self):
         super().tearDown()
-        self.voting = None
 
     def create_voting(self):
         q = Question(desc='test question')
@@ -51,45 +50,47 @@ class VotingDataTest(TestCase):
 
         return v
 
-    def test_get_context_data_200(self):
-        response = self.client.get('/booth/{}/'.format(self.voting.pk))
-        self.assertEqual(response.status_code, 200)
+    # def test_get_context_data_200(self):
+    #     self.login()
+    #     self.voting = self.create_voting()
+    #     response = mods.get('booth/{}'.format(self.voting.pk), response=True)
+    #     self.assertEqual(response.status_code, 200)
 
-    def test_get_context_data_not_found(self):
-        response = self.client.get('/booth/2/')
-        self.assertEqual(response.status_code, 404)
+    # def test_get_context_data_not_found(self):
+    #     response = self.client.get('/booth/2/')
+    #     self.assertEqual(response.status_code, 404)
 
-class AdminTestCase(StaticLiveServerTestCase):
+# class AdminTestCase(StaticLiveServerTestCase):
 
-    def setUp(self):
-        self.base = BaseTestCase()
-        self.base.setUp()
+#     def setUp(self):
+#         self.base = BaseTestCase()
+#         self.base.setUp()
 
-        options = webdriver.ChromeOptions()
-        #options.headless = True
-        self.driver = webdriver.Chrome(options=options)
+#         options = webdriver.ChromeOptions()
+#         #options.headless = True
+#         self.driver = webdriver.Chrome(options=options)
 
-        super().setUp()
+#         super().setUp()
 
-    def tearDown(self):
-        super().tearDown()
-        self.driver.quit()
-        self.base.tearDown()
+#     def tearDown(self):
+#         super().tearDown()
+#         self.driver.quit()
+#         self.base.tearDown()
 
-    def test_simpleCorrectLogin(self):
-        self.driver.get(f'{self.live_server_url}/admin/')
-        self.driver.find_element_by_id('id_username').send_keys("admin")
-        self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
+#     def test_simpleCorrectLogin(self):
+#         self.driver.get(f'{self.live_server_url}/admin/')
+#         self.driver.find_element_by_id('id_username').send_keys("admin")
+#         self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
 
-        print(self.driver.current_url)
+#         print(self.driver.current_url)
 
-        self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
+#         self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
 
-    def test_simpleIncorrectLogin(self):
-        self.driver.get(f'{self.live_server_url}/admin/')
-        self.driver.find_element_by_id('id_username').send_keys("noadmin")
-        self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
+#     def test_simpleIncorrectLogin(self):
+#         self.driver.get(f'{self.live_server_url}/admin/')
+#         self.driver.find_element_by_id('id_username').send_keys("noadmin")
+#         self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
 
-        print(self.driver.current_url)
+#         print(self.driver.current_url)
 
-        self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==0)
+#         self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==0)
