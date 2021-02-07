@@ -47,6 +47,22 @@ class VotingTestCase(BaseTestCase):
 
         return v
 
+    def create_custom_voting(self):
+        q = Question(desc='test question')
+        q.save()
+        for i in range(2):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+        v = Voting(name='test custom voting', question=q)
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+
+        return v
+
     def create_voters(self, v):
         for i in range(100):
             u, _ = User.objects.get_or_create(username='testvoter{}'.format(i))
@@ -82,6 +98,17 @@ class VotingTestCase(BaseTestCase):
                 voter = voters.pop()
                 mods.post('store', json=data)
         return clear
+
+    def test_my_voting(self):
+        v = self.create_custom_voting()
+        self.assertEqual(str(v), 'test custom voting')
+        self.assertEqual(str(v.question), 'test question')
+        self.assertEqual(QuestionOption.objects.filter(question=v.question.pk).count(), 2)
+
+    def test_get_creating_voting(self):
+        v = self.create_voting()
+        qv = Voting.objects.get(pk=v.pk)
+        self.assertEqual(qv, v)
 
     def test_complete_voting(self):
         v = self.create_voting()
