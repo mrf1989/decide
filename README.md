@@ -12,6 +12,10 @@ votación, por lo que prima la simplicidad por encima de la eficiencia
 cuando sea posible. Por lo tanto se asumen algunas carencias para permitir
 que sea entendible y extensible.
 
+Cambios recientes
+-----------------
+
+- Cambia el tamaño de la fuente tipográfica en el nombre de la votación "voting.name".
 
 Subsistemas, apps y proyecto base
 ---------------------------------
