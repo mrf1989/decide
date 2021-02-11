@@ -34,23 +34,23 @@ script:
   - coverage run --branch --source=. ./manage.py test booth --keepdb --with-xunit
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-deploy:
-  - provider: heroku
-    app: mruano-egc-demo
-    strategy: git
-    api_key: $HEROKU_AUTH_TOKEN
-    on:
-      branch: master
-  - provider: heroku
-    app: mruano-egc-demo-pre
-    strategy: git
-    api_key: $HEROKU_AUTH_TOKEN
-    on:
-      branch: dev
+# deploy:
+#   - provider: heroku
+#     app: mruano-egc-demo
+#     strategy: git
+#     api_key: $HEROKU_AUTH_TOKEN
+#     on:
+#       branch: master
+#   - provider: heroku
+#     app: mruano-egc-demo-pre
+#     strategy: git
+#     api_key: $HEROKU_AUTH_TOKEN
+#     on:
+#       branch: dev
 notifications:
   email:
     recipients:
       - mruano@us.es
       - mruano1989@gmail.com
     on_success: always
-    on_failure: never 
+    on_failure: never
