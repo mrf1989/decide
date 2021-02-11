@@ -4,18 +4,20 @@ services:
   - postgresql
 addons:
   postgresql: "9.4"
+  chrome: stable
 before_script:
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database test_decide owner decide"
   - psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
-  - "2.7"
-  - "3.3"
   - "3.6"
+  - "3.7"
+  - "3.8"
 install:
   - pip install -r requirements.txt
   - pip install codacy-coverage
+  - pip install selenium chromium-chromedriver
 script:
   - cd decide
   - cp travis_local_settings.py local_settings.py
@@ -35,3 +37,10 @@ deploy:
     api_key: $HEROKU_AUTH_TOKEN
     on:
       branch: dev
+notifications:
+  email:
+    recipients:
+      - mruano@us.es
+      - mruano1989@gmail.com
+    on_success: always
+    on_failure: never 
