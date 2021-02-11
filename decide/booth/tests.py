@@ -1,3 +1,4 @@
+import time
 from django.test import TestCase
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -78,6 +79,7 @@ class AdminTestCase(StaticLiveServerTestCase):
 
     def test_simpleCorrectLogin(self):
         self.driver.get(f'{self.live_server_url}/admin/')
+        time.sleep(5)
         self.driver.find_element(By.XPATH, "//input[@id=\'id_username\']").send_keys("admin")
         self.driver.find_element(By.XPATH, "//input[@id=\'id_password\']").send_keys("qwerty",Keys.ENTER)
 
@@ -87,6 +89,7 @@ class AdminTestCase(StaticLiveServerTestCase):
 
     def test_simpleIncorrectLogin(self):
         self.driver.get(f'{self.live_server_url}/admin/')
+        time.sleep(5)
         self.driver.find_element(By.XPATH, "//input[@id=\'id_username\']").send_keys("noadmin")
         self.driver.find_element(By.XPATH, "//input[@id=\'id_password\']").send_keys("qwerty",Keys.ENTER)
 
