@@ -9,6 +9,7 @@ before_script:
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database test_decide owner decide"
   - psql -U postgres -c "ALTER USER decide CREATEDB"
+  - cp travis_local_settings.py local_settigs.py
 language: python
 python:
   - "3.6"
@@ -30,7 +31,6 @@ install:
   - sudo chmod +x /usr/bin/geckodriver
 script:
   - cd decide
-  - cp travis_local_settings.py local_settings.py
   - coverage run --branch --source=. ./manage.py test booth --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
