@@ -2,6 +2,7 @@ dist: xenial
 
 services:
   - postgresql
+  - xvfb
 addons:
   postgresql: "9.4"
   chrome: stable
@@ -9,6 +10,8 @@ before_script:
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database test_decide owner decide"
   - psql -U postgres -c "ALTER USER decide CREATEDB"
+  - "export DISPLAY=:99.0"
+  - sleep 3
 language: python
 python:
   - "3.6"
