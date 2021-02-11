@@ -71,12 +71,12 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         super().setUp()
 
-   def tearDown(self):
+    def tearDown(self):
         super().tearDown()
         self.driver.quit()
         self.base.tearDown()
 
-   def test_simpleCorrectLogin(self):
+    def test_simpleCorrectLogin(self):
         self.driver.get(f'{self.live_server_url}/admin/')
         self.driver.find_element_by_id('id_username').send_keys("admin")
         self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
@@ -85,7 +85,7 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
 
-   def test_simpleIncorrectLogin(self):
+    def test_simpleIncorrectLogin(self):
         self.driver.get(f'{self.live_server_url}/admin/')
         self.driver.find_element_by_id('id_username').send_keys("noadmin")
         self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
